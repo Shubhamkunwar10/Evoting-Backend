@@ -12,7 +12,8 @@ const userStorageABI = require("./blockchain/abi/userStorage.json");
 const votingCommonABI = require("./blockchain/abi/votingCommon.json");
 const votingStorageABI = require("./blockchain/abi/votingStorage.json");
 const voterManagerABI = require("./blockchain/abi/userStorage.json");
-const initializeRoutes = require("./routes/addUser");
+
+const userRoutes = require("./routes/userRoutes");
 
 dotenv.config();
 
@@ -27,6 +28,9 @@ const SIGNER_BASE_URL = process.env.SIGNER_BASE_URL;
 const RELAYER_BASE_URL = process.env.RELAYER_BASE_URL;
 const WEB3_PROVIDER_URL = process.env.WEB3_PROVIDER_URL
 const uri = process.env.MONGO_URI;
+
+
+
 
 mongoose.connect(uri, {
   useNewUrlParser: true,
@@ -46,6 +50,7 @@ const web3 = new Web3(
 
 app.use(express.json());
 
+app.use('/user', userRoutes);  // This mounts all routes from userRoutes.js under the '/user' path
 
 // Start the server
 app.listen(port, () => {
