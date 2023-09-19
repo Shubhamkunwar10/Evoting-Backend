@@ -6,7 +6,7 @@ const Accounts = require('web3-eth-accounts');
 const { Web3 } = require("web3");
 
 const web3 = new Web3(
-    new Web3.providers.HttpProvider("http://localhost:7545")
+    new Web3.providers.HttpProvider("https://mainnet.infura.io/v3/0f333401437149e28c3696b36eb02f93")
 );
 
 const router = express.Router();
