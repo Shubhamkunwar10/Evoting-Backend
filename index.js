@@ -1,8 +1,10 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const { Web3 } = require("web3");
-const userManagerABI = require("./userManager.json");
-const voterManagerABI = require("./userManager.json");
+const userManagerABI = require("./blockchain/abi/userManager.json");
+const userStorageABI = require("./blockchain/abi/userStorage.json");
+const votingCommonABI = require("./blockchain/abi/votingCommon.json");
+const votingStorageABI = require("./blockchain/abi/votingStorage.json");
 const initializeRoutes = require("./routes/addUser");
 
 dotenv.config();
