@@ -24,10 +24,9 @@ async function signTransaction(encodedParams, password, bearerToken, signerBaseU
   }
 }
 
-async function relayTransaction(gaslessRelayerAddress, contractAddressToCall, encodedABIData, signatureData, relayerBaseUrl) {
+async function relayTransaction( contractAddressToCall, encodedABIData, signatureData, relayerBaseUrl) {
   try {
     const relayResponse = await axios.post(`${relayerBaseUrl}/relay`, {
-      gaslessRelayerAddress,
       contractAddressToCall,
       encodedABIData,
       signatureData,
