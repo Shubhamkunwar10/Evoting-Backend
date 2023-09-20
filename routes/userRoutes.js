@@ -21,7 +21,6 @@ router.post('/login', async (req, res) => {
         if (!user) {
             return res.status(401).json({ error: 'Authentication failed' });
         }
-
         // Compare passwords
         const isPasswordMatch = await bcrypt.compare(password, user.password);
         if (!isPasswordMatch) {
@@ -31,7 +30,7 @@ router.post('/login', async (req, res) => {
         // Generate a JWT token
         const token = jwt.sign({ userId: user._id }, 'secret-key', { expiresIn: '1h' });
 
-        res.json({ message: 'Login successful', token });
+        res.json({ message: 'Login successful', token, category : user.category });
     } catch (error) {
         console.log(error)
         res.status(500).json({ error: 'Internal server error from login API' });
