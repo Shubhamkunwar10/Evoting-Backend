@@ -12,7 +12,7 @@ const web3 = new Web3('https://polygon-mumbai.infura.io/v3/0f333401437149e28c369
 const contractRegistry = {
     "UserManager": {
         abi: require('../blockchain/abi/userManager.json'),
-        address: '0x3581A56f2b646Dc312717cD3D2ABE472eBEF6E98'
+        address: '0xFD37d1d6466164313Ca350723688c6901B9eBC15'
     },
     "UserStorage": {
         abi: require('../blockchain/abi/userStorage.json'),
