@@ -14,6 +14,7 @@ const votingStorageABI = require("./blockchain/abi/votingStorage.json");
 const voterManagerABI = require("./blockchain/abi/userStorage.json");
 
 const userRoutes = require("./routes/userRoutes");
+const contractRoutes = require("./routes/contractRoutes")
 
 dotenv.config();
 
@@ -44,13 +45,12 @@ mongoose.connect(uri, {
 });
 
 
-const web3 = new Web3(
-  new Web3.providers.HttpProvider(WEB3_PROVIDER_URL)
-);
 
 app.use(express.json());
 
 app.use('/user', userRoutes);  // This mounts all routes from userRoutes.js under the '/user' path
+app.use('/contract', contractRoutes);
+
 
 // Start the server
 app.listen(port, () => {
