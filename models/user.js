@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
       type : String,
       required : true
     },
+    privateKey : {
+      type : String,
+      required : true
+    },
     category : {
       type : String,
       required : true,

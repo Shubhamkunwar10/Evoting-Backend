@@ -49,15 +49,15 @@ router.post('/signup', async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ error: 'User already exists' });
         }
-
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
         const accounts = web3.eth.accounts.create();
-        console.log(accounts);
+
         // Create a new user
         const newUser = await User.create({ 
             email, password: hashedPassword, 
             publicKey: accounts.address, 
+            privateKey : accounts.privateKey,
             phoneNumber: phoneNumber,
             category : category
         });
@@ -81,9 +81,9 @@ router.get('/profile', authenticateToken, async (req, res) => {
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
-        console.log(user)
         // Hide sensitive details like password and maybe others
         user.password = undefined;
+        user.privateKey = undefined;
 
         res.status(200).json({ user });
     } catch (error) {
