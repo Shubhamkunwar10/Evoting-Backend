@@ -58,9 +58,6 @@ router.post('/sendTransaction', async (req, res) => {
         const privateKey = Buffer.from(userPvtKey, 'hex');
         const nonce = await web3.eth.getTransactionCount(user.publicKey);  
 
-        console.log(userPvtKey,user.publicKey)
-
-
         const rawTx = {
             nonce: web3.utils.toHex(nonce),
             from: user.publicKey,
@@ -76,24 +73,26 @@ router.post('/sendTransaction', async (req, res) => {
 
         const serializedTx = tx.serialize();
 
-        web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'), (err, hash) => {
-            if (err) {
-                res.status(500).json({ error: err });
-            } else {
-                res.status(200).json({
-                    status: true,
-                    message: "Action Completed Successfully",
-                    data: hash
-                });
-            }
+        web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'))
+        .on('receipt', (receipt) => {
+            res.status(200).json({
+                status: true,
+                message: "Action Completed Successfully",
+                receipt: receipt
+            });
+        })
+        .on('error', (err) => {
+            console.log(err.Error)
+            res.status(500).json({ error: err.toString() });
         });
+
     } catch (e) {
-        console.log(e);
         res.status(400).json({
             status: e.toString()
         });
     }
 });
+
 
 
 
