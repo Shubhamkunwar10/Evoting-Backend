@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const Accounts = require('web3-eth-accounts');
 const { Web3 } = require("web3");
+const authenticateToken = require('../utils/util')
 
 const web3 = new Web3(
     new Web3.providers.HttpProvider("https://polygon-mumbai.infura.io/v3/0f333401437149e28c3696b36eb02f93")
@@ -64,6 +65,30 @@ router.post('/signup', async (req, res) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({ error: 'Internal server error from signup API' });
+    }
+});
+
+router.get('/profile', authenticateToken, async (req, res) => {
+    const { email } = req.query;  // Assuming you'll send email as a query parameter
+
+    if (!email) {
+        return res.status(400).json({ error: 'Email is required to fetch user profile' });
+    }
+
+    try {
+        // Fetch user details
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        console.log(user)
+        // Hide sensitive details like password and maybe others
+        user.password = undefined;
+
+        res.status(200).json({ user });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Internal server error from profile API' });
     }
 });
 
