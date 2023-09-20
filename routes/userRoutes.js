@@ -3,12 +3,11 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const Accounts = require('web3-eth-accounts');
-const { Web3 } = require("web3");
+const Web3 = require('web3');
 const authenticateToken = require('../utils/util')
 
-const web3 = new Web3(
-    new Web3.providers.HttpProvider("https://polygon-mumbai.infura.io/v3/0f333401437149e28c3696b36eb02f93")
-);
+
+const web3 = new Web3("https://polygon-mumbai.infura.io/v3/0f333401437149e28c3696b36eb02f93");
 
 const router = express.Router();
 

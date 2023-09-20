@@ -1,4 +1,4 @@
-{
+[{
   "contractName": "UserManager",
   "abi": [
     {
@@ -24893,4 +24893,4 @@
     "methods": {},
     "version": 1
   }
-}
+}]

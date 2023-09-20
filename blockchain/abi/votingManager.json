@@ -1,4 +1,4 @@
-{
+[{
     "contractName": "VotingManager",
     "abi": [
       {
@@ -25650,4 +25650,4 @@
       "methods": {},
       "version": 1
     }
-  }
+  }]

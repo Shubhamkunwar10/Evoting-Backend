@@ -1,4 +1,4 @@
-{
+[{
   "contractName": "VotingStorage",
   "abi": [
     {
@@ -28717,4 +28717,4 @@
     "methods": {},
     "version": 1
   }
-}
+}]
