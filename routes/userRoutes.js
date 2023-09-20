@@ -6,7 +6,7 @@ const Accounts = require('web3-eth-accounts');
 const { Web3 } = require("web3");
 
 const web3 = new Web3(
-    new Web3.providers.HttpProvider("https://mainnet.infura.io/v3/0f333401437149e28c3696b36eb02f93")
+    new Web3.providers.HttpProvider("https://polygon-mumbai.infura.io/v3/0f333401437149e28c3696b36eb02f93")
 );
 
 const router = express.Router();
@@ -28,9 +28,9 @@ router.post('/login', async (req, res) => {
         }
 
         // Generate a JWT token
-        const token = jwt.sign({ userId: user._id }, 'secret-key', { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id,category : user.category, email : user.email }, 'secret-key', { expiresIn: '1h' });
 
-        res.json({ message: 'Login successful', token, category : user.category });
+        res.json({ message: 'Login successful', token });
     } catch (error) {
         console.log(error)
         res.status(500).json({ error: 'Internal server error from login API' });
