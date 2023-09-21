@@ -12,7 +12,7 @@ const web3 = new Web3('https://polygon-mumbai.infura.io/v3/0f333401437149e28c369
 const contractRegistry = {
     "UserManager": {
         abi: require('../blockchain/abi/userManager.json'),
-        address: '0xFD37d1d6466164313Ca350723688c6901B9eBC15'
+        address: '0xdEC5C3DF58aABFB98b7d0CDbB4c4cD101371c0d1'
     },
     "UserStorage": {
         abi: require('../blockchain/abi/userStorage.json'),
@@ -94,6 +94,40 @@ router.post('/sendTransaction', async (req, res) => {
 });
 
 
+router.get("/fetchContractData", async (req, res, next) => {
+    try {
+      const { contractName, methodName, parameters } = req.query;
+  
+      // Validate and fetch contract details
+      const contractDetails = contractRegistry[contractName];
+      if (!contractDetails) {
+        return res.status(400).json({ error: 'Unknown contract name' });
+      }
+  
+      // Create contract instance
+      const contractInstance = new web3.eth.Contract(
+        contractDetails.abi,
+        contractDetails.address
+      );
+  
+      // Dynamically call the method
+      const method = contractInstance.methods[methodName];
+      if (!method) {
+        return res.status(400).json({ error: 'Unknown method name' });
+      }
+  
+      // If parameters are provided, spread them into the method call
+      const result = await method(...(parameters || [])).call();
+  
+      // Return the result
+      res.status(200).json({ data: result });
+  
+    } catch (e) {
+      console.log(e);
+      next(e);
+    }
+  });
+  
 
 
 module.exports = router;
