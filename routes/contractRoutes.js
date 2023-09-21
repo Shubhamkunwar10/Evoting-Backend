@@ -24,7 +24,7 @@ const contractRegistry = {
     },
     "VotingManager": {
         abi: require('../blockchain/abi/votingManager.json'),
-        address: '0xD4807E7aEea683DCD4ba0658335C561302212Cd4'
+        address: '0xBE4951496F53AB856D574235A33AD7698aD19868'
     },
     "VotingStorage": {
         abi: require('../blockchain/abi/votingStorage.json'),
