@@ -30,6 +30,10 @@ const contractRegistry = {
         abi: require('../blockchain/abi/votingStorage.json'),
         address: '0x9EdC543e7f104e415B450453C4CF1Bf7FA9DfE86'
     },
+    "evoting" : {
+        abi : require('../blockchain/abi/evoting.json'),
+        address: '0xD53Ecc5A4078D613263eF797F1b4E259faD278D9'
+    }
     
 };
 
@@ -50,14 +54,14 @@ router.post('/sendTransaction', async (req, res) => {
 
         const contractDetails = contractRegistry[contractName];
         const contractInstance = new web3.eth.Contract(contractDetails.abi, contractDetails.address);
-        
+
         // Dynamically call the method using method name and parameters
         const encodedABI = contractInstance.methods[methodName](...parameters).encodeABI();
-        
+
         const userPvtKey = user.privateKey.substring(2); // Fetching from database
         const privateKey = Buffer.from(userPvtKey, 'hex');
-        const nonce = await web3.eth.getTransactionCount(user.publicKey);  
-
+        const nonce = await web3.eth.getTransactionCount(user.publicKey);
+        console.log('---->>>>', contractDetails.address)
         const rawTx = {
             nonce: web3.utils.toHex(nonce),
             from: user.publicKey,
@@ -74,17 +78,17 @@ router.post('/sendTransaction', async (req, res) => {
         const serializedTx = tx.serialize();
 
         web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'))
-        .on('receipt', (receipt) => {
-            res.status(200).json({
-                status: true,
-                message: "Action Completed Successfully",
-                receipt: receipt
+            .on('receipt', (receipt) => {
+                res.status(200).json({
+                    status: true,
+                    message: "Action Completed Successfully",
+                    receipt: receipt
+                });
+            })
+            .on('error', (err) => {
+                console.log(err.Error)
+                res.status(500).json({ error: err.toString() });
             });
-        })
-        .on('error', (err) => {
-            console.log(err.Error)
-            res.status(500).json({ error: err.toString() });
-        });
 
     } catch (e) {
         res.status(400).json({
@@ -96,37 +100,37 @@ router.post('/sendTransaction', async (req, res) => {
 
 router.get("/fetchContractData", async (req, res, next) => {
     try {
-      const { contractName, methodName, parameters } = req.query;
-  
-      // Validate and fetch contract details
-      const contractDetails = contractRegistry[contractName];
-      if (!contractDetails) {
-        return res.status(400).json({ error: 'Unknown contract name' });
-      }
-  
-      // Create contract instance
-      const contractInstance = new web3.eth.Contract(
-        contractDetails.abi,
-        contractDetails.address
-      );
-  
-      // Dynamically call the method
-      const method = contractInstance.methods[methodName];
-      if (!method) {
-        return res.status(400).json({ error: 'Unknown method name' });
-      }
-  
-      // If parameters are provided, spread them into the method call
-      const result = await method(...(parameters || [])).call();
-      // Return the result
-      res.status(200).json({ data: result });
-  
+        const { contractName, methodName, parameters } = req.query;
+
+        // Validate and fetch contract details
+        const contractDetails = contractRegistry[contractName];
+        if (!contractDetails) {
+            return res.status(400).json({ error: 'Unknown contract name' });
+        }
+
+        // Create contract instance
+        const contractInstance = new web3.eth.Contract(
+            contractDetails.abi,
+            contractDetails.address
+        );
+
+        // Dynamically call the method
+        const method = contractInstance.methods[methodName];
+        if (!method) {
+            return res.status(400).json({ error: 'Unknown method name' });
+        }
+
+        // If parameters are provided, spread them into the method call
+        const result = await method(...(parameters || [])).call();
+        // Return the result
+        res.status(200).json({ data: result });
+
     } catch (e) {
-      console.log(e);
-      res.status(400).json({ error: e });
+        console.log(e);
+        res.status(400).json({ error: e });
     }
-  });
-  
+});
+
 
 
 module.exports = router;
