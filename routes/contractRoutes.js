@@ -12,11 +12,11 @@ const web3 = new Web3('https://polygon-mumbai.infura.io/v3/0f333401437149e28c369
 const contractRegistry = {
     "UserManager": {
         abi: require('../blockchain/abi/userManager.json'),
-        address: '0xdEC5C3DF58aABFB98b7d0CDbB4c4cD101371c0d1'
+        address: '0x7962c71667E80821ad10fBe7EAA3421604D63f50'
     },
     "UserStorage": {
         abi: require('../blockchain/abi/userStorage.json'),
-        address: '0xBA3c9490CF9BE56f76f73d70739c03A17ef162B2'
+        address: '0x9c31122224543cd36DAd037473800681e011D3F2'
     },
     "VotingCommon": {
         abi: require('../blockchain/abi/votingCommon.json'),
@@ -32,7 +32,7 @@ const contractRegistry = {
     },
     "evoting" : {
         abi : require('../blockchain/abi/evoting.json'),
-        address: '0xD53Ecc5A4078D613263eF797F1b4E259faD278D9'
+        address: '0xd9908f8E4DF229EfDBcF5Bd4fF1537C481F921E1'
     }
     
 };

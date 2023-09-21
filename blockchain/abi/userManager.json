@@ -1161,6 +1161,11 @@
     "inputs": [
       {
         "internalType": "bytes32",
+        "name": "_voterId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bytes32",
         "name": "_positionId",
         "type": "bytes32"
       },
