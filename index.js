@@ -19,8 +19,9 @@ const contractRoutes = require("./routes/contractRoutes")
 dotenv.config();
 
 const app = express();
-app.use(cors()); // Enable CORS middleware
-
+app.use(cors({
+  origin: process.env.FRONTEND_URL
+}));
 const port = process.env.PORT || 8002;
 
 const USER_MANAGER_ADDRESS = process.env.USER_MANAGER_ADDRESS;
