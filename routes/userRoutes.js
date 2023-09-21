@@ -30,7 +30,7 @@ router.post('/login', async (req, res) => {
         // Generate a JWT token
         const token = jwt.sign({ userId: user._id,category : user.category, email : user.email }, 'secret-key', { expiresIn: '1h' });
 
-        res.json({ message: 'Login successful', token });
+        res.json({ message: 'Login successful', token, email: user.email });
     } catch (error) {
         console.log(error)
         res.status(500).json({ error: 'Internal server error from login API' });
