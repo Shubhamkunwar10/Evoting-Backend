@@ -118,13 +118,12 @@ router.get("/fetchContractData", async (req, res, next) => {
   
       // If parameters are provided, spread them into the method call
       const result = await method(...(parameters || [])).call();
-  
       // Return the result
       res.status(200).json({ data: result });
   
     } catch (e) {
       console.log(e);
-      next(e);
+      res.status(400).json({ error: e });
     }
   });
   
