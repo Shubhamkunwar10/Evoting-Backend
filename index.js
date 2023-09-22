@@ -9,6 +9,8 @@ const initializeRoutesElection = require("./routes/addElection");
 
  //update this so that only authorized jwtUser can Call this server
 
+ //Save data to offchain
+
 
 dotenv.config();
 
