@@ -25,6 +25,7 @@ function initializeRoutes(
         lastName,
         email,
         dob,
+        universityId,
         userAddress,
         password,
       } = req.body;

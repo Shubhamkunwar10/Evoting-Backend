@@ -40,6 +40,7 @@ app.use(express.json());
 
 // Initialize routes
 initializeRoutes.initializeRoutes(app,web3, userManagerContract, voterManagerContract, USER_MANAGER_ADDRESS, VOTER_MANAGER_ADDRESS, SIGNER_BASE_URL,  RELAYER_BASE_URL);
+
 initializeRoutesElection.initializeRoutes(app,web3, userManagerContract, voterManagerContract, USER_MANAGER_ADDRESS, VOTER_MANAGER_ADDRESS, SIGNER_BASE_URL,  RELAYER_BASE_URL);
 
 // Start the server
