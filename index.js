@@ -7,6 +7,9 @@ const voterManagerABI = require("./voterManager.json");
 const initializeRoutes = require("./routes/addUser");
 const initializeRoutesElection = require("./routes/addElection");
 
+ //update this so that only authorized jwtUser can Call this server
+
+
 dotenv.config();
 
 const app = express();
