@@ -12,7 +12,7 @@ function formatDateToISO(date) {
   return new Date(date).toISOString();
 }
 
-function initializeRoutes(app,web3, userManagerContract, voterManagerContract, USER_MANAGER_ADDRESS, VOTER_MANAGER_ADDRESS, SIGNER_BASE_URL, RELAYER_BASE_URL) {
+function initializeRoutes(app,web3,  voterManagerContract,  VOTER_MANAGER_ADDRESS, SIGNER_BASE_URL, RELAYER_BASE_URL) {
 
 
   // Handle POST requests to /addUser
@@ -27,11 +27,10 @@ function initializeRoutes(app,web3, userManagerContract, voterManagerContract, U
       } = req.body;
 
       //later save fName,lastName,dob,email,university with respect to userId via offchain db
-      const universityId=stringToBytes32(electionTitle);//take from jwt
-      electionIdCount++
-      const electionId = stringToBytes32(electionIdCount);//fetch from backend
+      const universityId=stringToBytes32(1);//take from jwt
+      const electionId = stringToBytes32(electionTitle);//fetch from backend
       
-      const positionsDetailsId=[]
+      const positionsDetailsId=[] //take later from req.body
 
       // Extract the authorization token from the request headers
       const bearerToken = req.headers.authorization;
@@ -100,7 +99,6 @@ function initializeRoutes(app,web3, userManagerContract, voterManagerContract, U
         .json({
           message: "Create Election trx successfully relayed",
           details: relayedTransactionDetails,
-          electionIdCount:electionIdCount,
         });
     } catch (error) {
       console.error("Error:", error);
@@ -108,97 +106,99 @@ function initializeRoutes(app,web3, userManagerContract, voterManagerContract, U
     }
   });
 
-  // Handle POST requests to /addUser
-  app.post("/university/createPosition", async (req, res) => {
-      try {
-        const {
-          electionTitle,
-          electionDescription,
-          electionStartDate,
-          electionEndDate,
-          password,
-        } = req.body;
-  
-        //later save fName,lastName,dob,email,university with respect to userId via offchain db
-        const universityId=stringToBytes32(electionTitle);//take from jwt
-        electionIdCount++
-        const electionId = stringToBytes32(electionIdCount);//fetch from backend
-        
-        const positionsDetailsId=[]
-  
-        // Extract the authorization token from the request headers
-        const bearerToken = req.headers.authorization;
-  
-        if (!bearerToken || !bearerToken.startsWith("Bearer ")) {
-          return res.status(401).json({ error: "Unauthorized" });
-        }
-  
-        // Extract the JWT token (remove 'Bearer ' from the token string)
-        const token = bearerToken.split(" ")[1];
-  
-         // Verify and decode the JWT token
-         const decoded=jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
-          if (err) {
-            return res.status(401).json({ error: "Unauthorized" });
-          }
-          else{
-            return decoded
-          }
-        });
-  
-        // Now, you can access the walletAddress from the decoded JWT payload
-        const walletAddress = decoded.walletAddress;
-        // Fetch nonce from Ethereum network
-        const nonce = await web3.eth.getTransactionCount(walletAddress);
-          let Election = {
-              universityId: universityId,
-              electionId:electionId,
-              startingTime: electionStartDate,
-              endingTime: electionEndDate,
-              positionsDetailsId: [
-                        ],
-            }
-  
-        const addElectionEncodedAbi = voterManagerContract.methods
-          .addElection(Election)
-          .encodeABI();
-  
-        // Calculate the message hash locally
-        const encodedParams = ethers.utils.solidityPack(
-          ["address", "bytes", "uint256"],
-          [VOTER_MANAGER_ADDRESS, addElectionEncodedAbi, nonce]
-        );
-  
-        // Sign the transaction
-        const signature = await signTransaction(
-          encodedParams,
-          password,
-          bearerToken,
-          SIGNER_BASE_URL
-        );
-        console.log(signature);
-  
-        // Relay the transaction
-        const relayedTransactionDetails = await relayTransaction(
-          VOTER_MANAGER_ADDRESS,
-          addElectionEncodedAbi,
-          signature.signatureInfo,
-          RELAYER_BASE_URL
-        );
-  
-        // Respond to the client
-        res
-          .status(200)
-          .json({
-            message: "Create Election trx successfully relayed",
-            details: relayedTransactionDetails,
-            electionIdCount:electionIdCount,
-          });
-      } catch (error) {
-        console.error("Error:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+// Handle POST requests to add a position
+app.post("/university/addPosition", async (req, res) => {
+  try {
+    const {
+      electionId,
+      positionTitle,
+      positionDescription,
+      position,
+      candidatesId,
+      maxVotes,
+      totalValidators,
+      validatorsAddress,
+      password,
+    } = req.body;
+    console.log(req.body)
+
+    // Create the position object,positionTitle
+    const positionData = {
+      electionId: stringToBytes32(electionId),
+      positionId: stringToBytes32(positionTitle),
+      positionDescription,
+      position,
+      candidatesId,
+      maxVotes,
+      totalValidators,
+      validatorsAddress,
+    };
+    console.log(positionData)
+
+
+    // Extract the authorization token from the request headers
+    const bearerToken = req.headers.authorization;
+
+    if (!bearerToken || !bearerToken.startsWith("Bearer ")) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    // Extract the JWT token (remove 'Bearer ' from the token string)
+    const token = bearerToken.split(" ")[1];
+
+    // Verify and decode the JWT token
+    const decoded = jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ error: "Unauthorized" });
+      } else {
+        return decoded;
       }
-  });
+    });
+
+    // Now, you can access the walletAddress from the decoded JWT payload
+    const walletAddress = decoded.walletAddress;
+
+    // Fetch nonce from Ethereum network
+    const nonce = await web3.eth.getTransactionCount(walletAddress);
+
+    const addPositionEncodedAbi = voterManagerContract.methods
+      .addPosition(positionData)
+      .encodeABI();
+
+    // Calculate the message hash locally
+    const encodedParams = ethers.utils.solidityPack(
+      ["address", "bytes", "uint256"],
+      [VOTER_MANAGER_ADDRESS, addPositionEncodedAbi, nonce]
+    );
+
+    // Sign the transaction
+    const signature = await signTransaction(
+      encodedParams,
+      password,
+      bearerToken,
+      SIGNER_BASE_URL
+    );
+    console.log(signature);
+
+    // Relay the transaction
+    const relayedTransactionDetails = await relayTransaction(
+      VOTER_MANAGER_ADDRESS,
+      addPositionEncodedAbi,
+      signature.signatureInfo,
+      RELAYER_BASE_URL
+    );
+
+    // Respond to the client
+    res.status(200).json({
+      message: "Position added successfully",
+      details: relayedTransactionDetails,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 
 
     // Define a new GET route for /university/getAllOfficers/:universityid

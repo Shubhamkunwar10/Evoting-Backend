@@ -1,4 +1,4 @@
-[
+ [
     {
       "inputs": [
         {
@@ -9,11 +9,6 @@
         {
           "internalType": "address",
           "name": "_manager",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_userManagerAddress",
           "type": "address"
         }
       ],
@@ -113,6 +108,19 @@
     },
     {
       "inputs": [],
+      "name": "userManagerAddress",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "votingStorage",
       "outputs": [
         {
@@ -122,6 +130,45 @@
         }
       ],
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "votingStorageAddress",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_votingStorageAddress",
+          "type": "address"
+        }
+      ],
+      "name": "loadVotingStorage",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_userManagerAddress",
+          "type": "address"
+        }
+      ],
+      "name": "loadUserManager",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -137,11 +184,6 @@
               "internalType": "bytes32[]",
               "name": "electionIds",
               "type": "bytes32[]"
-            },
-            {
-              "internalType": "address",
-              "name": "deployedAddress",
-              "type": "address"
             }
           ],
           "internalType": "struct University",
@@ -167,11 +209,6 @@
               "internalType": "bytes32[]",
               "name": "electionIds",
               "type": "bytes32[]"
-            },
-            {
-              "internalType": "address",
-              "name": "deployedAddress",
-              "type": "address"
             }
           ],
           "internalType": "struct University",
@@ -185,20 +222,13 @@
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "getVotingManagerDeployedAddress",
-      "outputs": [
+      "inputs": [
         {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
+          "internalType": "bytes32",
+          "name": "_universityId",
+          "type": "bytes32"
         }
       ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
       "name": "getUniversityDetail",
       "outputs": [
         {
@@ -212,11 +242,6 @@
               "internalType": "bytes32[]",
               "name": "electionIds",
               "type": "bytes32[]"
-            },
-            {
-              "internalType": "address",
-              "name": "deployedAddress",
-              "type": "address"
             }
           ],
           "internalType": "struct University",
@@ -305,6 +330,109 @@
       "name": "updateElection",
       "outputs": [],
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_electionId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getElectionDetail",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "bytes32",
+              "name": "universityId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "electionId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "startingTime",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "endingTime",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "positionsDetailsId",
+              "type": "bytes32[]"
+            }
+          ],
+          "internalType": "struct Election",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_electionId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getElectionPositionsDetail",
+      "outputs": [
+        {
+          "internalType": "bytes32[]",
+          "name": "",
+          "type": "bytes32[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_electionId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getElectionStartingTime",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_electionId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getElectionEndingTime",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -426,195 +554,6 @@
           "internalType": "bytes32",
           "name": "_positionId",
           "type": "bytes32"
-        },
-        {
-          "internalType": "bytes32",
-          "name": "_candidateId",
-          "type": "bytes32"
-        }
-      ],
-      "name": "addCandidateInPosition",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "_positionId",
-          "type": "bytes32"
-        },
-        {
-          "internalType": "bytes32",
-          "name": "_candidateId",
-          "type": "bytes32"
-        }
-      ],
-      "name": "deleteCandidateInPosition",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "_positionId",
-          "type": "bytes32"
-        },
-        {
-          "internalType": "bytes32",
-          "name": "_candidateId",
-          "type": "bytes32"
-        }
-      ],
-      "name": "voteCast",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "_positionId",
-          "type": "bytes32"
-        }
-      ],
-      "name": "resutlValidator",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "_positionId",
-          "type": "bytes32"
-        }
-      ],
-      "name": "positionWinner",
-      "outputs": [
-        {
-          "internalType": "bytes32",
-          "name": "",
-          "type": "bytes32"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "_electionId",
-          "type": "bytes32"
-        }
-      ],
-      "name": "getElectionDetail",
-      "outputs": [
-        {
-          "components": [
-            {
-              "internalType": "bytes32",
-              "name": "universityId",
-              "type": "bytes32"
-            },
-            {
-              "internalType": "bytes32",
-              "name": "electionId",
-              "type": "bytes32"
-            },
-            {
-              "internalType": "uint256",
-              "name": "startingTime",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "endingTime",
-              "type": "uint256"
-            },
-            {
-              "internalType": "bytes32[]",
-              "name": "positionsDetailsId",
-              "type": "bytes32[]"
-            }
-          ],
-          "internalType": "struct Election",
-          "name": "",
-          "type": "tuple"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "_electionId",
-          "type": "bytes32"
-        }
-      ],
-      "name": "getElectionPositionsDetail",
-      "outputs": [
-        {
-          "internalType": "bytes32[]",
-          "name": "",
-          "type": "bytes32[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "_electionId",
-          "type": "bytes32"
-        }
-      ],
-      "name": "getElectionStartingTime",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "_electionId",
-          "type": "bytes32"
-        }
-      ],
-      "name": "getElectionEndingTime",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "_positionId",
-          "type": "bytes32"
         }
       ],
       "name": "getPositionDetail",
@@ -720,6 +659,92 @@
         }
       ],
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_positionId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_candidateId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "addCandidateInPosition",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_positionId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_candidateId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "deleteCandidateInPosition",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_positionId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_candidateId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "voteCast",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_positionId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "resutlValidator",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_positionId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "positionWinner",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "nonpayable",
       "type": "function"
     }
   ]
