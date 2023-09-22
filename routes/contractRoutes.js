@@ -32,7 +32,7 @@ const contractRegistry = {
     },
     "evoting" : {
         abi : require('../blockchain/abi/evoting.json'),
-        address: '0xA87ABc9fd8eb9956C300175428fc834fc2a2a909'
+        address: '0x1EBA91bf692a3241bb51D0f30c39a932cbD90fcF'
     }
     
 };
