@@ -227,40 +227,25 @@ app.post("/university/addPosition", async (req, res) => {
       }
     });
     // Define a new GET route for /university/getAllOfficers/:universityid
-  app.get("/university/getElectionByUniversity/:universityid", async (req, res) => {
+    app.get("/university/getElectionByUniversity/:universityid", async (req, res) => {
       try {
-        // Replace this with your actual logic to fetch officer data based on the ID
-        const electionData = [
-          {
-            electionId: 1,
-            electionTitle: '2024 Colege Voting',
-            totalAlumni: '22',
-            electionStartDate: '10-11-2023',
-            electionEndDate: '15-11-2023',
-            electionStatus:"inProgress",
-
-          },
-          {
-            electionId: 2,
-            electionTitle: '2023 Mess Voting',
-            totalAlumni: '8',
-            electionStartDate: '10-11-2023',
-            electionEndDate: '15-11-2023',
-            electionStatus:"finished",
-
-          },
-          {
-            electionId: 3,
-            electionTitle: '2022 Mess Voting',
-            totalAlumni: '8',
-            electionStartDate: '10-11-2023',
-            electionEndDate: '15-11-2023',
-            electionStatus:"inactive",
-
-          },
-          ]
-  
-        // Respond with the officer data as JSON
+        // Replace this with your actual logic to fetch election data based on the university ID
+        const universityid = req.params.universityid;
+    
+        // Call the blockchain contract method to get the university details
+        const universityDetail = await voterManagerContract.getUniversityDetail(universityid);
+        
+        // Format the response data as needed
+        const electionData = {
+          electionId: universityDetail.electionId.toNumber(),
+          electionTitle: universityDetail.electionTitle,
+          totalAlumni: universityDetail.totalAlumni.toNumber(),
+          electionStartDate: universityDetail.electionStartDate.toISOString(),
+          electionEndDate: universityDetail.electionEndDate.toISOString(),
+          electionStatus: universityDetail.electionStatus,
+        };
+    
+        // Respond with the election data as JSON
         res.status(200).json(electionData);
       } catch (error) {
         console.error('Error:', error);
