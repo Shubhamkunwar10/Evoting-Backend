@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
     category : {
       type : String,
       required : true,
-      enum :  ['alumni', 'student', 'admin'],
+      enum :  ['verifier', 'holder', 'issuer'],
       lowercase : true 
     }
   });
