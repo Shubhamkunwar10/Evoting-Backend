@@ -3,11 +3,13 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const Accounts = require('web3-eth-accounts');
-const Web3  = require("web3");
+const Web3 = require("web3");
 const Tx = require("ethereumjs-tx")
 const router = express.Router();
 const web3 = new Web3('https://polygon-mumbai.infura.io/v3/0f333401437149e28c3696b36eb02f93');
-
+ 
+//const web3 = new Web3('https://polygon-mainnet.infura.io/v3/0f333401437149e28c3696b36eb02f93');
+//const web3 = new Web3('https://polygonzkevm-testnet.g.alchemy.com/v2/9X5mKbAOQmNUOFJ15n5gQduYOKIQROyf')
 
 const contractRegistry = {
     "UserManager": {
@@ -30,12 +32,21 @@ const contractRegistry = {
         abi: require('../blockchain/abi/votingStorage.json'),
         address: '0x9EdC543e7f104e415B450453C4CF1Bf7FA9DfE86'
     },
-    "evoting" : {
-        abi : require('../blockchain/abi/evoting.json'),
+    "evoting": {
+        abi: require('../blockchain/abi/evoting.json'),
         address: '0x1EBA91bf692a3241bb51D0f30c39a932cbD90fcF'
+    },
+    "ssi_contract": {
+        abi: require('../blockchain/abi/ssi_contract.json'),
+        address: '0xb2760CF30ed217fCaaEEd85e68777140a16fCDD9'
+    },
+    "BalanceAggregator": {
+        abi: require('../blockchain/abi/erc20balance.json'),
+        address: "0x4554efea0B970AE8ED50A033fdaeCcd522e0B387"
     }
-    
 };
+
+
 
 router.post('/sendTransaction', async (req, res) => {
     try {
@@ -61,7 +72,6 @@ router.post('/sendTransaction', async (req, res) => {
         const userPvtKey = user.privateKey.substring(2); // Fetching from database
         const privateKey = Buffer.from(userPvtKey, 'hex');
         const nonce = await web3.eth.getTransactionCount(user.publicKey);
-        console.log('---->>>>', contractDetails.address)
         const rawTx = {
             nonce: web3.utils.toHex(nonce),
             from: user.publicKey,
@@ -72,7 +82,7 @@ router.post('/sendTransaction', async (req, res) => {
             data: encodedABI,
         };
 
-        const tx = new Tx(rawTx, { 'chain': 'Mumbai Testnet' });
+        const tx = new Tx(rawTx);
         tx.sign(privateKey);
 
         const serializedTx = tx.serialize();
@@ -86,11 +96,12 @@ router.post('/sendTransaction', async (req, res) => {
                 });
             })
             .on('error', (err) => {
-                console.log(err.Error)
+
                 res.status(500).json({ error: err.toString() });
             });
 
     } catch (e) {
+        console.log(e)
         res.status(400).json({
             status: e.toString()
         });
@@ -100,7 +111,7 @@ router.post('/sendTransaction', async (req, res) => {
 
 router.get("/fetchContractData", async (req, res, next) => {
     try {
-        const { contractName, methodName, parameters } = req.query;
+        const { contractName,methodName,parameters } = req.query;
 
         // Validate and fetch contract details
         const contractDetails = contractRegistry[contractName];
@@ -113,7 +124,7 @@ router.get("/fetchContractData", async (req, res, next) => {
             contractDetails.abi,
             contractDetails.address
         );
-
+       
         // Dynamically call the method
         const method = contractInstance.methods[methodName];
         if (!method) {
@@ -131,6 +142,10 @@ router.get("/fetchContractData", async (req, res, next) => {
     }
 });
 
-
+// const methodName = 'fetchBalances';
+// const parameters = [
+//     ['0x1234567890123456789012345678901234567890', '0x514910771AF9Ca656af840dff83E8264EcF986CA'],
+//     '0x1234567890123456789012345678901234567890' // Additional parameter if needed
+// ];
 
 module.exports = router;
