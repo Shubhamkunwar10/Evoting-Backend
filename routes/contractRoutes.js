@@ -40,9 +40,9 @@ const contractRegistry = {
         abi: require('../blockchain/abi/ssi_contract.json'),
         address: '0xb2760CF30ed217fCaaEEd85e68777140a16fCDD9'
     },
-    "BalanceAggregator": {
-        abi: require('../blockchain/abi/erc20balance.json'),
-        address: "0x4554efea0B970AE8ED50A033fdaeCcd522e0B387"
+    "SSIAccessControl" : {
+        abi : require('../blockchain/abi/SSIAccessControl.json'),
+        address : '0xF5bE93656aC614743D2AaE71DD5D640F9a7b2A15'
     }
 };
 

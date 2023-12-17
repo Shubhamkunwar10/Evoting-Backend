@@ -1,0 +1,69 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			}
+		],
+		"name": "getEncryptedKey",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "iv",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes",
+				"name": "ephemPublicKey",
+				"type": "bytes"
+			},
+			{
+				"internalType": "bytes",
+				"name": "ciphertext",
+				"type": "bytes"
+			},
+			{
+				"internalType": "bytes",
+				"name": "mac",
+				"type": "bytes"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "iv",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes",
+				"name": "ephemPublicKey",
+				"type": "bytes"
+			},
+			{
+				"internalType": "bytes",
+				"name": "ciphertext",
+				"type": "bytes"
+			},
+			{
+				"internalType": "bytes",
+				"name": "mac",
+				"type": "bytes"
+			}
+		],
+		"name": "storeEncryptedKey",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
