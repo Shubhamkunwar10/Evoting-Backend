@@ -20,6 +20,10 @@ const contractRegistry = {
     "SSIAccessControl" : {
         abi : require('../blockchain/abi/SSIAccessControl.json'),
         address : '0xF5bE93656aC614743D2AaE71DD5D640F9a7b2A15'
+    },
+    "trustRegistry" : {
+        abi : require('../blockchain/abi/trustRegistry.json'),
+        address : "0x4cDA0c3931e8eb8E932c32be8E1470b68BFf0D83"
     }
 };
 
