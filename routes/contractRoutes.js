@@ -23,7 +23,7 @@ const contractRegistry = {
     },
     "trustRegistry" : {
         abi : require('../blockchain/abi/trustRegistry.json'),
-        address : "0x4cDA0c3931e8eb8E932c32be8E1470b68BFf0D83"
+        address : "0x2fD420E9534159c171448D6352f225d2FF2915BA"
     }
 };
 
