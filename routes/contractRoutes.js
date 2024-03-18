@@ -17,6 +17,10 @@ const contractRegistry = {
         abi: require('../blockchain/abi/ssi_contract.json'),
         address: '0xb2760CF30ed217fCaaEEd85e68777140a16fCDD9'
     },
+    "ssi_contract_2": {
+        abi: require('../blockchain/abi/erc721_expiration.json'),
+        address: '0x7418F4a59Ee27de2d5aB88849Fe4e3232bC95bC0'
+    },
     "SSIAccessControl" : {
         abi : require('../blockchain/abi/SSIAccessControl.json'),
         address : '0xF5bE93656aC614743D2AaE71DD5D640F9a7b2A15'
