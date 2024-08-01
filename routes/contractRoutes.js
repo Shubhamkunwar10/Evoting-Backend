@@ -6,10 +6,9 @@ const Accounts = require('web3-eth-accounts');
 const Web3 = require("web3");
 const Tx = require("ethereumjs-tx")
 const router = express.Router();
-const web3 = new Web3('https://cold-holy-dawn.matic-testnet.quiknode.pro/c5c072c04a8be678d252826ee1185ca7b2e09cb4/');
+
+const web3 = new Web3('https://polygon-amoy.blockpi.network/v1/rpc/public');
  
-//const web3 = new Web3('https://polygon-mainnet.infura.io/v3/0f333401437149e28c3696b36eb02f93');
-//const web3 = new Web3('https://polygonzkevm-testnet.g.alchemy.com/v2/9X5mKbAOQmNUOFJ15n5gQduYOKIQROyf')
 
 const contractRegistry = {
    
@@ -19,15 +18,15 @@ const contractRegistry = {
     },
     "ssi_contract_2": {
         abi: require('../blockchain/abi/erc721_expiration.json'),
-        address: '0x7418F4a59Ee27de2d5aB88849Fe4e3232bC95bC0'
+        address: '0xE629b27270625a93807aBbd649C73ca6C09CdD49'
     },
-    "SSIAccessControl" : {
-        abi : require('../blockchain/abi/SSIAccessControl.json'),
-        address : '0xF5bE93656aC614743D2AaE71DD5D640F9a7b2A15'
-    },
+    // "SSIAccessControl" : {
+    //     abi : require('../blockchain/abi/SSIAccessControl.json'),
+    //     address : '0xF5bE93656aC614743D2AaE71DD5D640F9a7b2A15'
+    // },
     "trustRegistry" : {
         abi : require('../blockchain/abi/trustRegistry.json'),
-        address : "0x2fD420E9534159c171448D6352f225d2FF2915BA"
+        address : "0x83B157093ed044A7517e0d40662d3faD0859284A"
     }
 };
 
@@ -37,6 +36,8 @@ router.post('/sendTransaction', async (req, res) => {
 
         // Fetch user details from the database
         const user = await User.findOne({ email: userEmail });
+        console.log(user)
+
         if (!user) {
             return res.status(400).json({ error: 'User not found' });
         }
@@ -70,7 +71,7 @@ router.post('/sendTransaction', async (req, res) => {
             to: contractDetails.address,
             gasLimit: '0x3d0900',
             gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
-            chainId: web3.utils.toHex(80001),
+            chainId: web3.utils.toHex(80002),
             data: encodedABI,
         };
 
